@@ -3,79 +3,62 @@ MenuWindow::MenuWindow(int height, int width, int row, int col)
 {
     __height = height; __width = width;
     __row = row; __col = col;
-    __menuPosX = 0; __menuPosY = 0;
+    __menuPos = 0;
     __mWin = newwin(height, width, row, col);
     box(__mWin, 0, 0);
-    __menu.push_back({"Start", "Help"});
+    initScreen();
 }
-std::pair<int,int>MenuWindow::event()
+int MenuWindow::event()
 {
-   __input = getch();
+   __input = wgetch(__mWin);
+   __input = std::toupper(__input);
    switch(__input)
    {
     case 'W':
-        return std::make_pair(0,1);
-    case 'A':
-        return std::make_pair(-1,0);
+        return -1;
     case 'S':
-        return std::make_pair(0,-1);
-    case 'D':
-        return std::make_pair(1,0);
-    case '\n': //enter
-        return std::make_pair(2,2);
+        return 1;
+    case '\n': //its working
+        return 2;
     default:
-        return std::make_pair(0,0);    
+        return 0;
    } 
 }
-void MenuWindow::update(std::pair<int,int> gameCmd)
+void MenuWindow::update(int gameCmd)
 {
-    if(gameCmd.first!=2 && gameCmd.second!=2)
-        __menuPosX+=gameCmd.first;
-        __menuPosY+=gameCmd.second;  
+    if(gameCmd!=2)
+        __menuPos+=gameCmd;
 }
 void MenuWindow::render()
 {
     //Prints Menu
-    for(int i=0;i<__menu.size();i++)
-    {
-        for(int j=0;j<__menu[j].size();j++)
-        {
-            mvwprintw(__mWin,
-             __height/2+(__menu.size()-1), 
-             __width/2+(__menu[j].size()-1), 
-             "%s", __menu[i][j].c_str());
-        }
-    }
-    //Prints >
     checkLimits();
     for(int i=0;i<__menu.size();i++)
     {
-        for(int j=0;j<__menu[j].size();j++)
-        {
-            mvwprintw(__mWin,
-             __height/2+(__menu.size()-1), 
-             __width/2+(__menu[j].size()-2), 
-             ">");
-        }
+        mvwprintw(__mWin, 1+i, 2, "%s", __menu[i].c_str());
+        if(i==__menuPos)
+            mvwprintw(__mWin, 1+i, 1, ">");
+        else   
+            mvwprintw(__mWin, 1+i, 1, " ");
     }
     wrefresh(__mWin);
 }
 void MenuWindow::checkLimits()
 {
-    if(__menuPosX<0)
+    if(__menuPos<0)
     {
-        __menuPosX = 0;
+        __menuPos = __menu.size()-1;
     }
-    else if(__menuPosX>=__menu.size())
+    else if(__menuPos>=__menu.size())
     {
-        __menuPosX = __menu.size()-1;
+        __menuPos = 0;
     }
-    if(__menuPosY<0)
-    {
-        __menuPosY = 0;
-    }
-    else if(__menuPosY>=__menu.size())
-    {
-        __menuPosY = __menu.size()-1;
-    }
-}
+}  
+void MenuWindow::initScreen()
+{
+    if(!__menu.empty())
+        __menu.clear();
+    __menu.push_back("Start");
+    __menu.push_back("Help");
+    __menu.push_back("Exit");
+} 
