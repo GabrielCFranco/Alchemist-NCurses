@@ -1,0 +1,3 @@
+/home/gabrielcfranco/Dev/ProjetosLol/Alchemist-NCurses/build/CMakeFiles/main.dir
+/home/gabrielcfranco/Dev/ProjetosLol/Alchemist-NCurses/build/CMakeFiles/edit_cache.dir
+/home/gabrielcfranco/Dev/ProjetosLol/Alchemist-NCurses/build/CMakeFiles/rebuild_cache.dir
