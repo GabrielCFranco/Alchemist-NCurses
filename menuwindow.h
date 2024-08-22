@@ -7,10 +7,10 @@ class MenuWindow
     public:
         MenuWindow(int height, int width, int row, int col);
         std::pair<int,int> event();
-        std::pair<int,int>getMenuPos();
-        void state();
-        void update();
+        void update(std::pair<int,int>gameCmd);
+        void render();
     private:
+        void checkLimits();
         int __height, __width;
         int __row, __col;
         int __menuPosX, __menuPosY;

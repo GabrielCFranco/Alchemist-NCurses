@@ -16,10 +16,13 @@ int main()
     MenuWindow *menuWin = new MenuWindow(LINES/4, COLS, LINES/4*3, 0);
     while(1)
     {   
-        menuWin->event();
-        gameWin->state();
+        //std::pair<int,int> gameCmd = std::make_pair(0,0);
+        std::pair<int,int> gameCmd = menuWin->event();
+
         gameWin->update();
-        menuWin->update();
+        menuWin->update(gameCmd);
+        menuWin->render();
+        gameWin->render();
     }
     endwin();
     return 0;

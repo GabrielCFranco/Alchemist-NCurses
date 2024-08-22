@@ -1,2 +1,2 @@
 # Alchemist-NCurses
-"Alchmeist", a little game made in c++/ncurses 
+"Alchemist", a little game made in c++/ncurses 
